@@ -27,17 +27,10 @@ namespace Podboi.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<GetUserDto>> CreateUserAsync(CreateUserDto NewUser)
         {
-
-            
-
-            Boolean res = await _repository.CreateUser(NewUser);
-            if (res)
+            var res = await _repository.CreateUser(NewUser);
+            if (res != null)
             {
-                return new GetUserDto(
-                NewUser.Name ?? "",
-                NewUser.Email ?? "",
-                NewUser.Phone ?? ""
-            );
+                return GetUserDto.FromUser(res);
             }
             else
             {
@@ -47,17 +40,19 @@ namespace Podboi.Api.Controllers
         }
 
 
-         // GET /users
+        // GET /users
         [HttpGet]
+        ///<summary>
+        /// Phone is an optional field
         public async Task<ActionResult<GetUserDto>> GetUserById(Int64 id)
         {
-
+            if (id == 0)
+            {
+                return BadRequest("Id is required or a bad Id was sent.");
+            }
             // Get User
-
-            
-
             GetUserDto? res = await _repository.GetUser(id);
-           
+
             if (res != null)
             {
                 return res;
