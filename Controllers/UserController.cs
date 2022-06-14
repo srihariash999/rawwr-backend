@@ -28,34 +28,43 @@ namespace Podboi.Api.Controllers
         public async Task<ActionResult<GetUserDto>> CreateUserAsync(CreateUserDto NewUser)
         {
 
-            // Create new user
+            
 
-            User _user = new User
-            {
-                Id = Guid.NewGuid(),
-                Name = NewUser.Name,
-                Email = NewUser.Email,
-                Password = NewUser.Password,
-                CreatedDate = DateTimeOffset.UtcNow
-            };
-
-            // hash password
-            _user.Password = BCrypt.Net.BCrypt.HashPassword(_user.Password);
-
-            Boolean res = await _repository.CreateUser(_user);
+            Boolean res = await _repository.CreateUser(NewUser);
             if (res)
             {
                 return new GetUserDto(
-                _user.Id,
-                _user.Name ?? "",
-                _user.Email ?? "",
-                _user.Phone ?? "",
-                _user.CreatedDate
+                NewUser.Name ?? "",
+                NewUser.Email ?? "",
+                NewUser.Phone ?? ""
             );
             }
             else
             {
                 return BadRequest("Cannot create user with given data");
+            }
+
+        }
+
+
+         // GET /users
+        [HttpGet]
+        public async Task<ActionResult<GetUserDto>> GetUserById(Int64 id)
+        {
+
+            // Get User
+
+            
+
+            GetUserDto? res = await _repository.GetUser(id);
+           
+            if (res != null)
+            {
+                return res;
+            }
+            else
+            {
+                return NotFound("User not found");
             }
 
         }

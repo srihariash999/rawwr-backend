@@ -732,11 +732,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/srihari/Documents/dotnet apps/rawwr-backend/rawwr-backend.csproj",
+      "projectUniqueName": "/Users/srihari/Documents/DotnetStuff/rawwr-backend/rawwr-backend.csproj",
       "projectName": "rawwr-backend",
-      "projectPath": "/Users/srihari/Documents/dotnet apps/rawwr-backend/rawwr-backend.csproj",
+      "projectPath": "/Users/srihari/Documents/DotnetStuff/rawwr-backend/rawwr-backend.csproj",
       "packagesPath": "/Users/srihari/.nuget/packages/",
-      "outputPath": "/Users/srihari/Documents/dotnet apps/rawwr-backend/obj/",
+      "outputPath": "/Users/srihari/Documents/DotnetStuff/rawwr-backend/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/srihari/.nuget/NuGet/NuGet.Config"
@@ -808,7 +808,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.201/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.300/RuntimeIdentifierGraph.json"
       }
     }
   }
