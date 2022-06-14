@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/srihari/Documents/DotnetStuff/rawwr-backend/rawwr-backend.csproj": {}
+    "/Users/srihari/Documents/dotnet apps/rawwr-backend/rawwr-backend.csproj": {}
   },
   "projects": {
-    "/Users/srihari/Documents/DotnetStuff/rawwr-backend/rawwr-backend.csproj": {
+    "/Users/srihari/Documents/dotnet apps/rawwr-backend/rawwr-backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/srihari/Documents/DotnetStuff/rawwr-backend/rawwr-backend.csproj",
+        "projectUniqueName": "/Users/srihari/Documents/dotnet apps/rawwr-backend/rawwr-backend.csproj",
         "projectName": "rawwr-backend",
-        "projectPath": "/Users/srihari/Documents/DotnetStuff/rawwr-backend/rawwr-backend.csproj",
+        "projectPath": "/Users/srihari/Documents/dotnet apps/rawwr-backend/rawwr-backend.csproj",
         "packagesPath": "/Users/srihari/.nuget/packages/",
-        "outputPath": "/Users/srihari/Documents/DotnetStuff/rawwr-backend/obj/",
+        "outputPath": "/Users/srihari/Documents/dotnet apps/rawwr-backend/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/srihari/.nuget/NuGet/NuGet.Config"
@@ -41,6 +41,10 @@
             "BCrypt.Net-Next": {
               "target": "Package",
               "version": "[4.0.3, )"
+            },
+            "Dapper": {
+              "target": "Package",
+              "version": "[2.0.123, )"
             },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
@@ -83,7 +87,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.300/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.201/RuntimeIdentifierGraph.json"
         }
       }
     }
