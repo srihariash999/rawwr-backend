@@ -11,7 +11,6 @@ using Npgsql;
 using Rawwr.Api.Dtos;
 using Rawwr.Api.Entities;
 using Rawwr.Constants;
-// using Rawwr.Api.Entities;
 
 
 //! This is an interface for the repository of Login. 
@@ -50,8 +49,16 @@ namespace Rawwr.Api.Repositories
             }
 
             string commandText = $"SELECT * FROM users WHERE email = @email";
-
-            var _u = await connection.QuerySingleAsync<User>(commandText, new { email = loginDetails.Email });
+            var _u = null as User;
+            try
+            {
+                _u = await connection.QuerySingleOrDefaultAsync<User>(commandText, new { email = loginDetails.Email });
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($" Exception caught in login api : {e}");
+                return null;
+            }
             if (_u == null)
             {
                 return null;
