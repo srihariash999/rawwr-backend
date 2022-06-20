@@ -41,69 +41,65 @@ namespace Rawwr.Api.Repositories
 
         public async Task<LoginResponseDto?> Login(LoginUserDto loginDetails)
         {
-            var connection = NewConnection;
-
-            if (connection.State == ConnectionState.Closed)
+            using (var connection = NewConnection)
             {
-                connection.Open();
-            }
-
-            string commandText = $"SELECT * FROM users WHERE email = @email";
-            var _u = null as User;
-            try
-            {
-                _u = await connection.QuerySingleOrDefaultAsync<User>(commandText, new { email = loginDetails.Email });
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($" Exception caught in login api : {e}");
-                return null;
-            }
-            if (_u == null)
-            {
-                return null;
-            }
-            else
-            {
+                string commandText = $"SELECT * FROM users WHERE email = @email";
+                var _u = null as User;
                 try
                 {
-                    if (BCrypt.Net.BCrypt.Verify(loginDetails.Password, _u.Password))
+                    _u = await connection.QuerySingleOrDefaultAsync<User>(commandText, new { email = loginDetails.Email });
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($" Exception caught in login api : {e}");
+                    return null;
+                }
+                if (_u == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    try
                     {
-                        // Console.WriteLine(" bcrypt verified");
-                        var claims = new[]
-                   {   
+                        if (BCrypt.Net.BCrypt.Verify(loginDetails.Password, _u.Password))
+                        {
+                            // Console.WriteLine(" bcrypt verified");
+                            var claims = new[]
+                       {   
                     // Add Id claim to the token.
                     new Claim( ClaimNames.UserId, _u.Id.ToString())
                    };
 
-                        // TOKEN Schema for Auth
-                        var token = new JwtSecurityToken
-                        (
-                            issuer: _configuration["Jwt:Issuer"],
-                            audience: _configuration["Jwt:Audience"],
-                            claims: claims,
-                            expires: DateTime.UtcNow.AddDays(60),
-                            notBefore: DateTime.UtcNow,
-                            signingCredentials: new SigningCredentials(
-                                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"])),
-                                SecurityAlgorithms.HmacSha256)
-                        );
+                            // TOKEN Schema for Auth
+                            var token = new JwtSecurityToken
+                            (
+                                issuer: _configuration["Jwt:Issuer"],
+                                audience: _configuration["Jwt:Audience"],
+                                claims: claims,
+                                expires: DateTime.UtcNow.AddDays(60),
+                                notBefore: DateTime.UtcNow,
+                                signingCredentials: new SigningCredentials(
+                                    new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"])),
+                                    SecurityAlgorithms.HmacSha256)
+                            );
 
-                        // Generate new JWT token.
-                        var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
-                        return new LoginResponseDto(tokenString);
+                            // Generate new JWT token.
+                            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+                            return new LoginResponseDto(tokenString);
+                        }
+                        else
+                        {
+                            // Console.WriteLine(" bcrypt not verified");
+                            return null;
+                        }
                     }
-                    else
+                    catch (Exception e)
                     {
-                        // Console.WriteLine(" bcrypt not verified");
+                        Console.WriteLine(" Error in login ");
+                        Console.WriteLine(e);
                         return null;
                     }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(" Error in login ");
-                    Console.WriteLine(e);
-                    return null;
                 }
             }
 

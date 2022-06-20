@@ -37,17 +37,9 @@ namespace Rawwr.Api.Repositories
 
         public async Task<User?> CreateUser(CreateUserDto user)
         {
-            var connection = NewConnection;
-
-            if (connection.State == ConnectionState.Closed)
-            {
-                connection.Open();
-            }
-
-
             string commandText = $"INSERT INTO {TableNames.users} (name, email, phone, password) VALUES ( @name, @email, @phone, @password) RETURNING *";
 
-            await using (var con = connection)
+            await using (var con = NewConnection)
             {
 
                 String pass = BCrypt.Net.BCrypt.HashPassword(user.Password);
@@ -86,14 +78,8 @@ namespace Rawwr.Api.Repositories
 
         public async Task<GetUserDto?> GetUser(Int64 id)
         {
-            var connection = NewConnection;
 
-            if (connection.State == ConnectionState.Closed)
-            {
-                connection.Open();
-            }
-
-            await using (var con = connection)
+            await using (var con = NewConnection)
             {
                 try
                 {
